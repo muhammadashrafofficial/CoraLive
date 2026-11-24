@@ -1,0 +1,17 @@
+# Project specific R8 rules. AGP combines all .keep files in src/main/keepRules.
+# More: https://d.android.com/r/tools/r8/keep-rules
+
+-keepattributes *Annotation*, InnerClasses, Signature
+
+# kotlinx.serialization (harmless if no @Serializable classes exist yet)
+-dontnote kotlinx.serialization.SerializationKt
+-keep,includedescriptorclasses class com.example.coralive.**$$serializer { *; }
+-keepclassmembers class com.example.coralive.** {
+    *** Companion;
+}
+-keepclasseswithmembers class com.example.coralive.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# WorkManager (declared as a dependency, no workers in the code yet)
+-keep class androidx.work.** { *; }
